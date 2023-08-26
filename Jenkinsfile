@@ -39,15 +39,15 @@ pipeline {
         echo ":$BUILD_NUMBER"
       }
     }
-    stage("Publish to Nexus Repository Manager") {
+   /* stage("Publish to Nexus Repository Manager") {
       steps {
         script {
           pom = readMavenPom file: "Spring/pom.xml"
           
       }
     }
-	}
-    stage('Pull the file off Nexus') {
+	}*/
+ /*   stage('Pull the file off Nexus') {
       steps {
         dir('Spring') {
           withCredentials([usernameColonPassword(credentialsId: 'Nexus-Creds', variable: 'NEXUS_CREDENTIALS')]) {
@@ -55,7 +55,16 @@ pipeline {
           }
         }
       }
-    }
+    }*/
+	stage("Deployment stage") {
+            steps {
+                script {
+                pom = readMavenPom file: 'pom.xml';
+                   echo "${pom.artifactId}-${pom.version}.${pom.packaging}"
+                   sh "mvn deploy:deploy-file  -DskipTests=true -DgroupId=${pom.groupId} -DartifactId=${pom.artifactId} -Dversion=${pom.version}  -DgeneratePom=true -Dpackaging=${pom.packaging}  -DrepositoryId=deploymentRepo -Durl=http://192.168.202.130:8081/repository/maven-releases/ -Dfile=target/${pom.artifactId}-${pom.version}.${pom.packaging}"
+                }
+            }
+        }  
     stage('Building Docker Image Spring') {
       steps {
         dir('Spring') {
