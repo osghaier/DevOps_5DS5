@@ -51,7 +51,7 @@ pipeline {
       steps {
         dir('Spring') {
           withCredentials([usernameColonPassword(credentialsId: 'Nexus-Creds', variable: 'NEXUS_CREDENTIALS')]) {
-            sh script: 'curl -u ${NEXUS_CREDENTIALS} -o ./target/tpachat.jar "$NEXUS_URL/repository/$NEXUS_REPOSITORY/com/esprit/examen/tpAchatProject/1/tpAchatProject-1.jar"'
+            sh script: 'curl  ./target/tpachat.jar "http://192.168.202.130:8081/repository/tpAchatProject-1.jar"'
           }
         }
       }
