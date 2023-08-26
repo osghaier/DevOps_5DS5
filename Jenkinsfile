@@ -48,7 +48,7 @@ pipeline {
           artifactPath = filesByGlob[0].path;
           artifactExists = fileExists artifactPath;
           if (artifactExists) {
-            echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${VERSION}";
+            echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}";
             
         }
       }
@@ -58,7 +58,7 @@ pipeline {
       steps {
         dir('Spring') {
           withCredentials([usernameColonPassword(credentialsId: 'Nexus-Creds', variable: 'NEXUS_CREDENTIALS')]) {
-            sh script: 'curl -u ${NEXUS_CREDENTIALS} -o ./target/tpachat.jar "$NEXUS_URL/repository/$NEXUS_REPOSITORY/com/esprit/examen/tpAchatProject/$VERSION/tpAchatProject-$VERSION.jar"'
+            sh script: 'curl -u ${NEXUS_CREDENTIALS} -o ./target/tpachat.jar "$NEXUS_URL/repository/$NEXUS_REPOSITORY/com/esprit/examen/tpAchatProject/1/tpAchatProject-1.jar"'
           }
         }
       }
