@@ -39,30 +39,8 @@ pipeline {
         echo ":$BUILD_NUMBER"
       }
     }
-    stage("Publish to Nexus Repository Manager") {
-      steps {
-        script {
-          pom = readMavenPom file: "Spring/pom.xml";
-          filesByGlob = findFiles(glob: "Spring/target/*.${pom.packaging}");
-          echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
-          artifactPath = filesByGlob[0].path;
-          artifactExists = fileExists artifactPath;
-          if (artifactExists) {
-            echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${VERSION}";
-            
-        }
-      }
-    }
-	}
-    stage('Pull the file off Nexus') {
-      steps {
-        dir('Spring') {
-          withCredentials([usernameColonPassword(credentialsId: 'Nexus-Creds', variable: 'NEXUS_CREDENTIALS')]) {
-            sh script: 'curl -u ${NEXUS_CREDENTIALS} -o ./target/tpachat.jar "$NEXUS_URL/repository/$NEXUS_REPOSITORY/com/esprit/examen/tpAchatProject/$VERSION/tpAchatProject-$VERSION.jar"'
-          }
-        }
-      }
-    }
+
+
     stage('Building Docker Image Spring') {
       steps {
         dir('Spring') {
