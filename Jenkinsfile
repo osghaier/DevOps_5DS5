@@ -1,15 +1,6 @@
 pipeline {
   agent any
-  environment {
-    NEXUS_VERSION = "nexus3"
-    NEXUS_PROTOCOL = "http"
-    NEXUS_URL = "192.168.202.130:8081"
-    NEXUS_REPOSITORY = "maven-releases"
-    NEXUS_CREDENTIAL_ID = "Nexus-Creds"
-    DOCKER_CREDENTIAL_ID = "Docker-Creds"
-    VERSION = "1.${env.BUILD_NUMBER}"
-    DOCKER_CREDS = credentials('Docker-Creds')
-  }
+ 
   stages {
 
     stage("Maven Clean") {
@@ -58,30 +49,7 @@ pipeline {
           artifactExists = fileExists artifactPath;
           if (artifactExists) {
             echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${VERSION}";
-            nexusArtifactUploader(
-              nexusVersion: NEXUS_VERSION,
-              protocol: NEXUS_PROTOCOL,
-              nexusUrl: NEXUS_URL,
-              groupId: pom.groupId,
-              version: VERSION,
-              repository: NEXUS_REPOSITORY,
-              credentialsId: NEXUS_CREDENTIAL_ID,
-              artifacts: [
-                [artifactId: pom.artifactId,
-                  classifier: '',
-                  file: artifactPath,
-                  type: pom.packaging
-                ],
-                [artifactId: pom.artifactId,
-                  classifier: '',
-                  file: "Spring/pom.xml",
-                  type: "pom"
-                ]
-              ]
-            );
-          } else {
-            error "*** File: ${artifactPath}, could not be found";
-          }
+            
         }
       }
     }
