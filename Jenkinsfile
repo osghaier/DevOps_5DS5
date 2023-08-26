@@ -42,8 +42,7 @@ pipeline {
     stage("Publish to Nexus Repository Manager") {
       steps {
         script {
-          pom = readMavenPom file: "Spring/pom.xml";
-          filesByGlob = findFiles(glob: "Spring/target/*.${pom.packaging}");
+          pom = readMavenPom file: "Spring/pom.xml"
           
       }
     }
