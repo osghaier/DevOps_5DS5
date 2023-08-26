@@ -65,41 +65,42 @@ pipeline {
                 }
             }
         }  
-    stage('Building Docker Image Spring') {
+  /*  stage('Building Docker Image Spring') {
       steps {
         dir('Spring') {
           sh 'docker build -t $DOCKER_CREDS_USR/tpachatback .'
         }
       }
-    }
-    stage('Building Docker Image Angular') {
+    } */
+   /* stage('Building Docker Image Angular') {
       steps {
         dir('Angular/crud-tuto-front') {
           sh 'docker build -t $DOCKER_CREDS_USR/tpachatfront .'
         }
       }
-    }
-    stage('Login to DockerHub') {
+    } */
+    /* stage('Login to DockerHub') {
       steps {
         dir('Spring') {
           echo DOCKER_CREDS_USR
           sh('docker login -u $DOCKER_CREDS_USR -p $DOCKER_CREDS_PSW')
         }
       }
-    }
-    stage('Push to DockerHub (Angular and Spring )') {
+    } */
+   /* stage('Push to DockerHub (Angular and Spring )') {
       steps {
         dir('Spring') {
           sh 'docker push $DOCKER_CREDS_USR/tpachatback'
           sh 'docker push $DOCKER_CREDS_USR/tpachatfront'
         }
       }
-    }
-    stage('Docker Compose') {
+    } */
+	  
+  /*  stage('Docker Compose') {
       steps {
         sh 'docker-compose up -d'
       }
     }
-  
+  */
 }
 }
